@@ -11,8 +11,7 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-
-
+    
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
     }
@@ -21,6 +20,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
-
+    func application(sender: NSApplication, openFile filename: String) -> Bool {
+        
+        return sender.sendAction(#selector(ViewController.openPath(_:)),
+                                 to: nil,
+                                 from: filename)
+    }
 }
 

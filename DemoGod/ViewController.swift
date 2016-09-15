@@ -24,18 +24,6 @@ class TitledView: NSView {
     }
 }
 
-extension NSTextField {
-    
-    convenience init(stringLabel: String) {
-        self.init(frame: CGRect(x: 0, y: 0, width: 200, height: 17))
-        stringValue = stringLabel
-        bezeled = false
-        drawsBackground = false
-        editable = false
-        selectable = false
-    }
-}
-
 extension GTTag : NSCopying {
 
     public func copyWithZone(zone: NSZone) -> AnyObject {
@@ -45,7 +33,7 @@ extension GTTag : NSCopying {
 
 extension GTTag {
     
-    @objc var isCurrentTag: Bool {
+    var isCurrentTag: Bool {
         if let tagSHA = self.target?.SHA {
             
             if let repoSHA = try? self.repository.headReference().OID.SHA {
@@ -55,8 +43,24 @@ extension GTTag {
         return false
     }
     
-    @objc var isCurrentTagBullet: String {
+    var isCurrentTagBullet: String {
         return self.isCurrentTag ? "•" : ""
+    }
+}
+
+extension ViewController: NSOpenSavePanelDelegate {
+    
+    func panel(sender: AnyObject, validateURL url: NSURL) throws {
+        
+        if !self.validateURLForOpening(url) {
+        
+        let error = NSError(domain: "argh", code: 1, userInfo: [
+            NSLocalizedDescriptionKey: "That directory is not a git repository",
+            NSLocalizedFailureReasonErrorKey: "You must select a directory that has a valid .git dir in it"
+            ])
+            
+            throw error
+        }
     }
 }
 
@@ -65,23 +69,80 @@ class ViewController: NSViewController {
     var repositoryURL: NSURL? { return self.representedObject as? NSURL }
 
     @IBOutlet weak var tableView: NSTableView!
-    @objc var tags: [GTTag] = []
+    @objc var tags: [GTTag] = [] {
+        willSet {
+            self.willChangeValueForKey("tags")
+        }
+        didSet {
+            self.didChangeValueForKey("tags")
+        }
+    }
     
     var repo: GTRepository?
-    var timer: NSTimer?
+    var fastTimer: NSTimer?
+    var slowTimer: NSTimer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.representedObject = NSURL(fileURLWithPath: "/Users/aufflick/src/CocoaHeads/MoyaTalk/Yum")
-
         self.tableView.target = self
         self.tableView.doubleAction = #selector(self.doubleAction(_:))
 
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(self.timerFire(_:)), userInfo: nil, repeats: true)
+        fastTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(self.fastTimerFire(_:)), userInfo: nil, repeats: true)
+        slowTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(self.slowTimerFire(_:)), userInfo: nil, repeats: true)
     }
     
-    @objc func doubleAction(sender: NSTableView) {
+    var openPanel: NSOpenPanel?
+    
+    func validateURLForOpening(url: NSURL?) -> Bool {
+        
+        if let url = url {
+            
+            let gitPath = url.URLByAppendingPathComponent(".git").path!
+            
+            var isDir: ObjCBool = false
+            if NSFileManager().fileExistsAtPath(gitPath, isDirectory: &isDir) && isDir {
+                return true
+            }
+        }
+
+        return false
+    }
+    
+    @objc func openPath(path: String) {
+        
+        let url = NSURL(fileURLWithPath: path)
+
+        if self.validateURLForOpening(url) {
+            self.representedObject = url
+        }
+    }
+    
+    func openDocument(sender: AnyObject?) {
+        
+        openPanel = NSOpenPanel()
+        
+        if let panel = openPanel {
+            panel.canChooseFiles = false
+            panel.canChooseDirectories = true
+            panel.message = "Choose your git repo"
+            panel.prompt = "I am a Demo God"
+            panel.delegate = self
+            panel.beginSheetModalForWindow(view.window!, completionHandler: { returnCode in
+                
+                if returnCode == NSFileHandlingPanelOKButton {
+                    
+                    if self.validateURLForOpening(panel.directoryURL) {
+                    
+                        NSDocumentController.sharedDocumentController().noteNewRecentDocumentURL(panel.directoryURL!)
+                        self.representedObject = panel.directoryURL!
+                    }
+                }
+            })
+        }
+    }
+    
+    func doubleAction(sender: NSTableView) {
         
         let tag = tags[sender.clickedRow]
         
@@ -118,7 +179,23 @@ class ViewController: NSViewController {
         
     }
     
-    @objc func timerFire(timer: NSTimer) {
+    func updateTags() {
+        
+        if let repo = repo {
+            do {
+                tags = try repo.allTags()
+            } catch(let error) {
+                print("error getting tags: \(error)")
+            }
+        }
+    }
+    
+    func slowTimerFire(timer: NSTimer) {
+        self.updateTags()
+    }
+    
+    func fastTimerFire(timer: NSTimer) {
+        
         for tag in tags {
             tag.willChangeValueForKey("isCurrentTagBullet")
             tag.didChangeValueForKey("isCurrentTagBullet")
@@ -142,14 +219,7 @@ class ViewController: NSViewController {
                     view.title = repositoryURL.lastPathComponent!
                 }
                 
-                do {
-                    // don't quite understand swift kvo yet
-                    self.willChangeValueForKey("tags")
-                    tags = try repo!.allTags()
-                    self.didChangeValueForKey("tags")
-                } catch(let error) {
-                    print("error getting tags: \(error)")
-                }
+                self.updateTags()
             }
         }
     }
