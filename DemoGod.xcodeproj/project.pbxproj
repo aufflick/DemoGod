@@ -12,6 +12,9 @@
 		64B0D4B81D8A143B0078EF58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64B0D4B71D8A143B0078EF58 /* Assets.xcassets */; };
 		64B0D4BB1D8A143B0078EF58 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64B0D4B91D8A143B0078EF58 /* Main.storyboard */; };
 		64B0D4C61D8A143B0078EF58 /* DemoGodTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B0D4C51D8A143B0078EF58 /* DemoGodTests.swift */; };
+		64B0D4D11D8A15B40078EF58 /* ObjectiveGit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64B0D4D01D8A15B40078EF58 /* ObjectiveGit.framework */; };
+		64B0D4D31D8A15D50078EF58 /* ObjectiveGit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 64B0D4D01D8A15B40078EF58 /* ObjectiveGit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		64B0D4D71D8A17370078EF58 /* Foo.m in Sources */ = {isa = PBXBuildFile; fileRef = 64B0D4D61D8A17370078EF58 /* Foo.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,6 +27,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		64B0D4D21D8A15CC0078EF58 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				64B0D4D31D8A15D50078EF58 /* ObjectiveGit.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		64B0D4B01D8A143B0078EF58 /* DemoGod.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoGod.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		64B0D4B31D8A143B0078EF58 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -34,6 +50,10 @@
 		64B0D4C11D8A143B0078EF58 /* DemoGodTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoGodTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		64B0D4C51D8A143B0078EF58 /* DemoGodTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoGodTests.swift; sourceTree = "<group>"; };
 		64B0D4C71D8A143B0078EF58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		64B0D4D01D8A15B40078EF58 /* ObjectiveGit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ObjectiveGit.framework; sourceTree = "<group>"; };
+		64B0D4D41D8A17370078EF58 /* DemoGod-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DemoGod-Bridging-Header.h"; sourceTree = "<group>"; };
+		64B0D4D51D8A17370078EF58 /* Foo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Foo.h; sourceTree = "<group>"; };
+		64B0D4D61D8A17370078EF58 /* Foo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Foo.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64B0D4D11D8A15B40078EF58 /* ObjectiveGit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,11 +96,15 @@
 		64B0D4B21D8A143B0078EF58 /* DemoGod */ = {
 			isa = PBXGroup;
 			children = (
+				64B0D4D01D8A15B40078EF58 /* ObjectiveGit.framework */,
 				64B0D4B31D8A143B0078EF58 /* AppDelegate.swift */,
 				64B0D4B51D8A143B0078EF58 /* ViewController.swift */,
 				64B0D4B71D8A143B0078EF58 /* Assets.xcassets */,
 				64B0D4B91D8A143B0078EF58 /* Main.storyboard */,
 				64B0D4BC1D8A143B0078EF58 /* Info.plist */,
+				64B0D4D51D8A17370078EF58 /* Foo.h */,
+				64B0D4D61D8A17370078EF58 /* Foo.m */,
+				64B0D4D41D8A17370078EF58 /* DemoGod-Bridging-Header.h */,
 			);
 			path = DemoGod;
 			sourceTree = "<group>";
@@ -103,6 +128,7 @@
 				64B0D4AC1D8A143B0078EF58 /* Sources */,
 				64B0D4AD1D8A143B0078EF58 /* Frameworks */,
 				64B0D4AE1D8A143B0078EF58 /* Resources */,
+				64B0D4D21D8A15CC0078EF58 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -193,6 +219,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64B0D4D71D8A17370078EF58 /* Foo.m in Sources */,
 				64B0D4B61D8A143B0078EF58 /* ViewController.swift in Sources */,
 				64B0D4B41D8A143B0078EF58 /* AppDelegate.swift in Sources */,
 			);
@@ -314,11 +341,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DemoGod",
+				);
 				INFOPLIST_FILE = DemoGod/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.htb.DemoGod;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "DemoGod/DemoGod-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -326,11 +360,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DemoGod",
+				);
 				INFOPLIST_FILE = DemoGod/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.htb.DemoGod;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "DemoGod/DemoGod-Bridging-Header.h";
 			};
 			name = Release;
 		};
