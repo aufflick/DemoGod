@@ -13,4 +13,6 @@ forcibly switch to the selected tag. You can sort the tag or comment column.
 
 You can start from the commandline if you prefer from the root of your git repo with `open -a DemoGod .`
 
+There's a pre-compiled (and signed) app in [Releases](https://github.com/aufflick/DemoGod/releases).
+
 Happy presenting!
